@@ -1,0 +1,39 @@
+site_name: HumeSQL
+site_description: Natural language to SQL to JSON results using Gemini.
+site_url: https://nirajang20.github.io/HumeSQL/
+repo_url: https://github.com/nirajang20/HumeSQL
+repo_name: nirajang20/HumeSQL
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.instant
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - scheme: default
+      primary: blue
+      accent: teal
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/nirajang20/HumeSQL
+nav:
+  - Overview: index.md
+  - Getting Started:
+      - Installation: getting-started.md
+      - Configuration: configuration.md
+  - Usage:
+      - Python API: api.md
+      - CLI: cli.md
+  - Guidance:
+      - Prompting Tips: tips.md
+      - Troubleshooting: troubleshooting.md
+  - About:
+      - FAQ: faq.md
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true

@@ -6,7 +6,7 @@ readme = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="humesql",
-    version="0.3.1",
+    version="0.3.2",
     description="Natural language to SQL to JSON results using Gemini.",
     long_description=readme,
     long_description_content_type="text/markdown",
