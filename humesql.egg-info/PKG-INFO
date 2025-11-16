@@ -1,0 +1,93 @@
+Metadata-Version: 2.4
+Name: humesql
+Version: 0.3.1
+Summary: Natural language to SQL to JSON results using Gemini.
+Home-page: https://github.com/nirajang20/HumeSQL
+Author: Nirajan Ghimire
+Author-email: nirajanghimire20@gmail.com
+Project-URL: Source, https://github.com/nirajang20/HumeSQL
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Database
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mysql-connector-python>=8.0.0
+Requires-Dist: google-genai>=0.3.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# HumeSQL
+
+Convert natural language into safe SQL, execute it against your MySQL/MariaDB database, and return JSON rows. The package fetches your schema, asks an LLM (Gemini) to build SQL, runs it, and hands back the results.
+
+## Install (PyPI-ready)
+```bash
+pip install humesql
+```
+
+## Quick start
+1. Install dependencies (editable install if working from the repo):
+   ```bash
+   pip install -e .
+   ```
+2. Export your AI key (either works):
+   ```bash
+   export HUMESQL_AI_KEY="your-gemini-key"
+   # or
+   export GEMINI_API_KEY="your-gemini-key"
+   ```
+3. Fill in your DB credentials in `example.py` (host/user/password/database/port).
+4. Run the example:
+   ```bash
+   python example.py
+   ```
+
+## Basic usage
+```python
+from humesql import HumeSQL
+
+db = {
+    "host": "localhost",
+    "user": "root",
+    "password": "",
+    "database": "classicmodels",
+    "port": 3306,
+}
+
+h = HumeSQL(db)
+response = h.query("Show me the last 5 users who signed up from Nepal", debug=True)
+
+if response["ok"]:
+    print(response["sql"])
+    print(response["rows"])
+else:
+    print("Error:", response["error"])
+```
+
+## CLI
+You can also run a one-off query from the terminal:
+```bash
+humesql "last 5 customers from Nepal" \
+  -H localhost -u root -p "" -d classicmodels --port 3306 \
+  --api-key "$GEMINI_API_KEY" --model gemini-2.5-flash --debug
+```
+
+The CLI outputs JSON with the SQL, reasoning, rows, and timing.
+
+## Notes
+- Uses `google-genai` under the hood; make sure your API key has access to the chosen model (default: `gemini-2.5-flash`). Override with `HumeSQL(..., model="gemini-1.5-pro-latest")`, etc.
+- Schema is cached by default; call `refresh_schema_cache()` if the DB changes.
+- Guardrails block obviously destructive SQL (DROP/TRUNCATE/ALTER/`;`/information_schema).
