@@ -20,7 +20,7 @@ setup(
     python_requires=">=3.9",
     install_requires=[
         "mysql-connector-python>=8.0.0",
-        "google-genai>=0.3.0",  # adjust version as needed
+        "google-genai>=0.3.1",  # adjust version as needed
     ],
     entry_points={
         "console_scripts": [
